@@ -32,13 +32,13 @@ class MainPage(BasePage):
 
     @allure.step("Получить счетчик ингредиента")
     def get_ingredient_counter(self):
-        counter_element = self.find_element(MainPageLocators.INGREDIENT_COUNTER)
+        counter_element = self.wait_for_element_visible(MainPageLocators.INGREDIENT_COUNTER)
         return int(counter_element.text)
 
     @allure.step("Перетащить ингредиент в конструктор")
     def drag_ingredient_to_constructor(self):
-        ingredient = self.find_element(MainPageLocators.INGREDIENT_ITEM)
-        constructor_area = self.find_element(MainPageLocators.CONSTRUCTOR_AREA)
+        ingredient = self.wait_for_element_visible(MainPageLocators.INGREDIENT_ITEM)
+        constructor_area = self.wait_for_element_visible(MainPageLocators.CONSTRUCTOR_AREA)
 
         actions = ActionChains(self.driver)
         actions.drag_and_drop(ingredient, constructor_area).perform()

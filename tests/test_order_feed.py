@@ -1,5 +1,6 @@
 import allure
 from selenium.webdriver.support import expected_conditions as EC
+from urls import Urls
 
 
 class TestOrderFeed:
@@ -24,7 +25,7 @@ class TestOrderFeed:
         assert orders_in_progress is not None
 
     @allure.title("Проверка навигации по ленте заказов")
-    def test_order_appears_in_progress(self, main_page, order_feed_page):
+    def test_order_feed_navigation(self, main_page, order_feed_page):
         main_page.click_order_feed_button()
         main_page.wait.until(EC.url_contains("/feed"))
 
