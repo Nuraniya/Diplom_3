@@ -1,12 +1,21 @@
 import allure
 from selenium.webdriver.support import expected_conditions as EC
-from urls import Urls
+from pages.main_page import MainPage
+from pages.order_feed_page import OrderFeedPage
 
 
 class TestOrderFeed:
 
     @allure.title("Проверка отображения счетчиков заказов")
-    def test_total_orders_counter_increase(self, main_page, order_feed_page):
+    def test_total_orders_counter_displayed(self, driver, login):
+        main_page = MainPage(driver)
+        order_feed_page = OrderFeedPage(driver)
+
+        main_page.drag_ingredient_to_constructor()
+        main_page.click_order_button()
+        main_page.wait_for_order_success_modal()
+        main_page.close_order_modal()
+
         main_page.click_order_feed_button()
         main_page.wait.until(EC.url_contains("/feed"))
 
@@ -17,7 +26,15 @@ class TestOrderFeed:
         assert today_orders >= 0
 
     @allure.title("Проверка раздела 'В работе'")
-    def test_today_orders_counter_increase(self, main_page, order_feed_page):
+    def test_orders_in_progress_section(self, driver, login):
+        main_page = MainPage(driver)
+        order_feed_page = OrderFeedPage(driver)
+
+        main_page.drag_ingredient_to_constructor()
+        main_page.click_order_button()
+        main_page.wait_for_order_success_modal()
+        main_page.close_order_modal()
+
         main_page.click_order_feed_button()
         main_page.wait.until(EC.url_contains("/feed"))
 
@@ -25,7 +42,10 @@ class TestOrderFeed:
         assert orders_in_progress is not None
 
     @allure.title("Проверка навигации по ленте заказов")
-    def test_order_feed_navigation(self, main_page, order_feed_page):
+    def test_order_feed_navigation(self, driver):
+        main_page = MainPage(driver)
+        order_feed_page = OrderFeedPage(driver)
+
         main_page.click_order_feed_button()
         main_page.wait.until(EC.url_contains("/feed"))
 

@@ -62,34 +62,19 @@ def driver(request):
 
 
 @pytest.fixture()
-def main_page(driver):
-    from pages.main_page import MainPage
-    return MainPage(driver)
-
-
-@pytest.fixture()
-def login_page(driver):
-    from pages.login_page import LoginPage
-    return LoginPage(driver)
-
-
-@pytest.fixture()
-def order_feed_page(driver):
-    from pages.order_feed_page import OrderFeedPage
-    return OrderFeedPage(driver)
-
-
-@pytest.fixture()
 def login(driver):
     from pages.main_page import MainPage
     from pages.login_page import LoginPage
     from data import TestData
+    from locators.main_page_locators import MainPageLocators
 
     main_page = MainPage(driver)
     login_page = LoginPage(driver)
 
     main_page.click_login_button()
     login_page.login(TestData.TEST_EMAIL, TestData.TEST_PASSWORD)
+
+    main_page.wait_for_element_invisible(MainPageLocators.MODAL_OVERLAY)
 
     return driver
 

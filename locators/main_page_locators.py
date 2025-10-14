@@ -18,7 +18,8 @@ class MainPageLocators:
 
     # Модальные окна
     INGREDIENT_DETAILS_MODAL = (By.CSS_SELECTOR, "[class*='Modal_modal__container__']")
-    ORDER_SUCCESS_MODAL = (By.CSS_SELECTOR, "[class*='OrderFeed_number__']")
+    MODAL_OVERLAY = (By.CSS_SELECTOR, "[class*='Modal_modal_overlay__']")
+    ORDER_SUCCESS_MODAL = (By.CSS_SELECTOR, "h2[class*='Modal_modal__title__']")
     MODAL_CLOSE_BUTTON = (By.CSS_SELECTOR, "[class*='Modal_modal__close__']")
 
     # Разделы

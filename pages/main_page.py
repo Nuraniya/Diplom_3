@@ -1,5 +1,7 @@
 import allure
 from selenium.webdriver import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
 
@@ -12,7 +14,8 @@ class MainPage(BasePage):
 
     @allure.step("Кликнуть на кнопку 'Лента Заказов'")
     def click_order_feed_button(self):
-        self.click_element(MainPageLocators.ORDER_FEED_BUTTON)
+        order_feed_button = self.wait_for_element_visible(MainPageLocators.ORDER_FEED_BUTTON)
+        self.driver.execute_script("arguments[0].click();", order_feed_button)
 
     @allure.step("Кликнуть на кнопку 'Войти в аккаунт'")
     def click_login_button(self):
@@ -49,11 +52,15 @@ class MainPage(BasePage):
 
     @allure.step("Ожидать появления модального окна успешного заказа")
     def wait_for_order_success_modal(self):
-        self.wait_for_element_visible(MainPageLocators.ORDER_SUCCESS_MODAL)
+        extended_wait = WebDriverWait(self.driver, 15)
+        extended_wait.until(EC.visibility_of_element_located(MainPageLocators.ORDER_SUCCESS_MODAL))
 
     @allure.step("Закрыть модальное окно заказа")
     def close_order_modal(self):
-        self.click_element(MainPageLocators.MODAL_CLOSE_BUTTON)
+        close_button = self.wait_for_element_visible(MainPageLocators.MODAL_CLOSE_BUTTON)
+        self.driver.execute_script("arguments[0].click();", close_button)
+
+        self.wait_for_element_invisible(MainPageLocators.MODAL_OVERLAY)
 
     @allure.step("Проверить отображение раздела 'Булки'")
     def is_buns_section_displayed(self):
